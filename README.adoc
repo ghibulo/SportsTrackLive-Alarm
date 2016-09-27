@@ -1,0 +1,63 @@
+== Alarm for your Sportstracklive
+
+
+http://www.sportstracklive.com[Sportstracklive.com] is very useful for sportspeople, but to be more happy I needed some alarms
+ -> every 1200km of cycling for service of my bicycle-chain; every 50 hour of running to change the burden of my body...
+
+My free solution of this small problem:
+
+You can grab information about your activities from regular Sportstracklive-mails. There is significant subject: _"You finished a track on sportstracklive.com"_ and you can use it for grabing these mails in one file in your Dropbox folder. For grabbing you can use excelent free service of http://zapier.com[Zapier.com]. Through *Zapier* you can join your *GMAIL* and *DROPBOX* very easily, and your file of grabbed mails could be something like...
+
+----
+Hi Jirka,
+You finished a Running
+<http://www.sportstracklive.com/track/detail/ghibulo/Running/jentak/kryry/1837360>
+activity about 2 hours ago
+...
+Category Running
+Location jentak
+Event kryry
+Distance 4.64km
+Duration 30m 18s
+Start
+4:28:53 PM
+<http://www.sportstracklive.com/track/map#ghibulo/Running/jentak/kryry/1837360/start>
+CEST Thu, 16 Jul 15
+Finish
+4:59:11 PM
+<http://www.sportstracklive.com/track/map#ghibulo/Running/jentak/kryry/1837360/end>
+CEST Thu, 16 Jul 15
+Performance
+Max 12.25kph
+
+
+regards
+
+sportstracklive.com <http://www.sportstracklive.com>
+...
+Hi Jirka,
+----
+
+Put my python script *sportstracklive.py* with *config.json* in the same *Dropbox* folder for example and ensure to run it regularly (through *crontab* on *Linux* or a similar starter on Win). If you set the *config.json* right, you can enjoy the useful alerts... Setting up *config.json* is very easy:
+
+[source, json]
+----
+{"mail": {"smtp": "smtp.seznam.cz", "port":587, "psw": "passwd",
+          "fromWh":"somebody@seznam.cz", "toWh":"somebody@gmail.com"},
+  "alarms": [{"Message": "Subject: Your cycling\n\n Time for servis",
+             "Category": "Cycling", "Distance": 1200},
+             {"Message": "Subject: Super!\n\n another 30km running -> Relax!",
+             "Category": "Running", "Distance": 30},
+             {"Message": "Subject: Great!\n\n another 10 hours of running -> go to swim!",
+              "Duration": 10, "Category": "Running"}],
+  "version": "sportstracklive01",
+  "data": "/home/user/Dropbox/Sport/MyActivities.txt"}
+----
+
+- create a dedicated mail account and set smtp+port+passwd to your 'config.json'
+- set how many alarms (for _Distance_ or _Duration_) you should like in your config (Message, Category and Distance/Duration). _Distance -> number of km, Duration -> number of hours._
+
+My script writes in this *config.json* file some informations (how many _km_ or _hours_ it counts for the _Category_ or which activity counted last (like primar key is used start of the activity). If you would like (it's no necessary) to delete file of your grabbed informations, let the last activity or erase key _"last stamp"_ . After a period of _"Beta testing"_ I'll finish automatic deletion...
+
+Feel free to get in touch with problems, I'll try to help.
+
