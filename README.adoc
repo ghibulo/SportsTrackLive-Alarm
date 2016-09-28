@@ -36,6 +36,8 @@ regards
 sportstracklive.com <http://www.sportstracklive.com>
 ...
 Hi Jirka,
+...
+...
 ----
 
 Put my python script *sportstracklive.py* with *config.json* in the same *Dropbox* folder for example and ensure to run it regularly (through *crontab* on *Linux* or a similar starter on Win). If you set the *config.json* right, you can enjoy the useful alerts... Setting up *config.json* is very easy:
@@ -60,4 +62,21 @@ Put my python script *sportstracklive.py* with *config.json* in the same *Dropbo
 My script writes in this *config.json* file some informations (how many _km_ or _hours_ it counts for the _Category_ or which activity counted last (like primar key is used start of the activity). If you would like (it's no necessary) to delete file of your grabbed informations, let the last activity or erase key _"last stamp"_ . After a period of _"Beta testing"_ I'll finish automatic deletion...
 
 Feel free to get in touch with problems, I'll try to help.
+
+== Discovered errors
+
+There is necessary to add absolute path to your config.json like parameter. On my Debian desktop:
+
+[source, bash]
+----
+/home/user/Dropbox/Sport/sportstracklive.py /home/user/Dropbox/Sport/config.json
+----
+
+My crontab:
+
+[source, bash]
+----
+# m h  dom mon dow   command
+0 */2 * * *  /home/user/Dropbox/Sport/sportstracklive.py /home/user/Dropbox/Sport/config.json
+----
 

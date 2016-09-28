@@ -11,6 +11,7 @@ unts = {items[1]:'km', items[2]:'hodin'}
 # MAIL:
 SMTP = "smtp.seznam.cz"
 SMTPPORT = 587
+CONFIG = "config.json"
 
 
 
@@ -78,7 +79,9 @@ def get_time(x):
     return 0
 
 def read_config():
-    with open('config.json') as f:
+    global CONFIG
+    CONFIG = sys.argv[1]
+    with open(CONFIG) as f:
         return json.load(f)
 
 
@@ -166,9 +169,10 @@ def update_conf(conf, data):
 def update_data(conf):
     if not ('data' in conf.keys()):
         sys.exit("Sory, there is no path to your data-file in your config")
-    global SMTP, SMTPPORT
+    global SMTP, SMTPPORT, CONFIG
     SMTP = conf['mail']['smtp']
     SMTPPORT = conf['mail']['port']
+    
 
     try:
         dataf = open(conf['data'], 'r')
@@ -177,7 +181,7 @@ def update_data(conf):
     datalines = dataf.readlines()
     dataf.close()
     update_conf(conf, read_activities(datalines))
-    with open('config.json', 'w') as outfile:
+    with open(CONFIG, 'w') as outfile:
         json.dump(conf, outfile)
 
 
