@@ -10,29 +10,32 @@ You can grab information about your activities from regular Sportstracklive-mail
 
 ----
 Hi Jirka,
-You finished a Running
-<http://www.sportstracklive.com/track/detail/ghibulo/Running/jentak/kryry/1837360>
-activity about 2 hours ago
+
+You finished a Cycling activity
+
+about 1 hour ago
+
+Detail
+
+- Map - Play
+
+User
+
+ghibulo
+
+Category
+
+Cycling
+
+Distance
+
+23.87km
+
+Duration
+
+1h 21m 48s
 ...
-Category Running
-Location jentak
-Event kryry
-Distance 4.64km
-Duration 30m 18s
-Start
-4:28:53 PM
-<http://www.sportstracklive.com/track/map#ghibulo/Running/jentak/kryry/1837360/start>
-CEST Thu, 16 Jul 15
-Finish
-4:59:11 PM
-<http://www.sportstracklive.com/track/map#ghibulo/Running/jentak/kryry/1837360/end>
-CEST Thu, 16 Jul 15
-Performance
-Max 12.25kph
-
-
-regards
-
+...
 sportstracklive.com <http://www.sportstracklive.com>
 ...
 Hi Jirka,
@@ -72,7 +75,15 @@ There is necessary to add absolute path to your config.json like parameter. On m
 /home/user/Dropbox/Sport/sportstracklive.py /home/user/Dropbox/Sport/config.json
 ----
 
-My crontab:
+or on Winplatform:
+
+[source]
+----
+python /home/user/Dropbox/Sport/sportstracklive.py /home/user/Dropbox/Sport/config.json
+----
+
+
+My crontab (every 2 hours execution...):
 
 [source, bash]
 ----

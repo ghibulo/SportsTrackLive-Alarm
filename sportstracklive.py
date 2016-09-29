@@ -1,7 +1,7 @@
 import json
 import sys
 import smtplib
-
+import re
 
 
 items = ['Category', 'Distance', 'Duration', 'Start']
@@ -90,23 +90,25 @@ def read_activities(dl):
     stack = []
     j=0
     try:
-        for i in range(0,len(dl)):
+        i=0
+        while i<len(dl):
             if dl[i].find(items[j])==0:
-                if j<3:
-                    vl = dl[i][len(items[j])+1:].strip()
-                    if j==0: # category
-                        activity[items[j]] = vl
-                        j+=1
-                        continue
-                    dlt = get_num(vl) if j==1 else get_time(vl) # dist or duration
-                    activity[items[j]]=dlt
-                    j+=1
-                else:
-                    activity[items[j]]="{s1} {s2}".format(s1=dl[i+1].strip(),s2=dl[i+3].strip())
-                    stack.append(activity)
-                    activity={}
-                    j=0
-                    i+=20 # nothing expected
+                stinfo=dl[i][len(items[j])+1:].strip()
+                i+=1
+                while len(re.findall("Finish", dl[i])) == 0:
+                    stinfo = "{s} {d}".format(s=stinfo,d=dl[i])
+                    i+=1
+                stinfo_list = re.split("{i1}|{i2}|{i3}|{cst}"
+                                       .format(i1=items[1], i2=items[2], i3=items[3], cst="CEST"), stinfo)
+                stinfo_list = [x.strip() for x in stinfo_list]
+                activity[items[0]] = stinfo_list[0]
+                activity[items[1]] = get_num(stinfo_list[1])
+                activity[items[2]] = get_time(stinfo_list[2])
+                activity[items[3]] = "{s1} {s2}".format(s1=stinfo_list[3], s2=stinfo_list[4])
+                stack.append(activity)
+                activity={}
+                i+=10 # nothing expected
+            i+=1
         return stack
     except:
         print("Structure of your data file is corrupted!")
@@ -178,6 +180,7 @@ def update_data(conf):
         dataf = open(conf['data'], 'r')
     except IOError:
         print("There is a problem with your data file...")
+        raise
     datalines = dataf.readlines()
     dataf.close()
     update_conf(conf, read_activities(datalines))
